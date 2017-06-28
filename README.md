@@ -1,4 +1,4 @@
-![cf](https://i.imgur.com/7v5ASc8.png) lab 13 single resource express/mongo api
+![cf](https://i.imgur.com/7v5ASc8.png) lab 12 two resource express api
 ======
 
 # To Submit this Assignment
@@ -11,56 +11,63 @@
 
 # Build Tool Instructions
 * create a package.json that lists all dependencies and developer dependencies
- * have a start and test npm script
+* include a .env and .test.env
 * include an .eslintrc
 * include a .gitignore
- * **add the string `db` to a new line in your gitignore file so that you don't include the db directory monogd is storing its files in!**
-* include any necessary NPM scripts
+* include a readme with a project description
+  * how to install
+  * how to start the server
+  * document the routes
+* include a package.json 
   * have a lint script for running eslint
   * have a test script for running mocha
-  * have a default script for running the lint and mocha tasks
-* a readme with a project description and api docs
+  * start script for running your server
+  * have a start-db script for running mongod
+  * have a stop-db script for stoping mongod
 
 # Directions
 * Create these directories to organize your code:
- * db - use the command `mongod --dbpath ./db` to start mongod using this directory
  * lib
  * model
  * route
+ * db 
  * test
 * Create a HTTP Server using `express`
-* Create a **Model** that using `mongoose.Schema` and `mongoose.model`
- * The model can represent what ever data you choose. _e.g. note, blog post, store items_
+* Come up with two models that have a one to many relationship 
+  
+* using mongoose create the first resource in the one to many relationship
+ * it can not have the same properties as the in class sample code, or yesterdays lab
+ * make sure you include at least one propertie with the `unique` validator set to true
+ * Also include two other properties of your choice (like name, creationDate, etc.)
 * use the `body-parser` express middleware to on `POST` and `PUT` routes
-<!-- * use the npm `debug` module to log the functions being executed in your app -->
-* using the express `Router` create a route for doing **RESTFUL CRUD** operations on your _Model_
 
 ## Server Endpoints
-### `/api/model-name`
+### `/api/resource-name`
 * `POST` request
  * pass data as stringified json in the body of a post request to create a resource
 
-### `/api/model-name/:id`
+### `/api/resource-name/:id`
 * `GET` request
- * pass the id of a resource though the url endpoint to `req.params` to fetch a model   
+ * pass the id of a resource though the query string to fetch a resource   
 * `PUT` request
  * pass data as stringified json in the body of a put request to update a resource
 * `DELETE` request
- * pass the id of a resource though the url endpoint to `req.params` to delete a model   
+ * pass the id of a resource though the query string to delete a resource   
 
 ## Tests
 * your tests should start your server when they begin and stop your server when they finish
 * write a test to ensure that your api returns a status code of 404 for routes that have not been registered
-* write tests to ensure your `/api/model-name` endpoint responds as described for each condition below:
- * `GET` - test 200, response body like `{<data>}` for a request made with a valid id
+* write tests to ensure your `/api/resource-name` endpoint responds as described for each condition below:
  * `GET` - test 404, responds with 'not found' for valid request made with an id that was not found
+ * `GET` - test 200, response body like `{<data>}` for a request made with a valid id
  * `PUT` - test 200, response body like  `{<data>}` for a post request with a valid body
- * `PUT` - test 400, responds with 'bad request' for if no `body provided` or `invalid body`
- * `PUT` - test 404, responds with 'not found' for valid request made with an id that was not found
- * `POST` - test 400, responds with 'bad request' for if no `body provided` or `invalid body`
+ * `PUT` - test 400, with invalid body
+ * `PUT` - test 404, with invalid id
+ * `DELETE` - test 204, with valid id
+ * `DELETE` - test 404, with invalid id 
  * `POST` - test 200, response body like  `{<data>}` for a post request with a valid body
- * `DELETE` - test 204, with no body, for a request with a valid id
- * `DELETE` - test 404, responds with 'not found' for valid request made with an id that was not found
-
-## Bonus
-* **2pts** a `GET` request to `/api/model-name` should return an array of all stored resources for that model
+ * `POST` - test 400, with an invalid request body
+ * `POST` - test 409, with an a conflict for a unique property
+ 
+ # Bonus 2pts 
+* create a `GET /api/resource` route that has pagination using query strings
