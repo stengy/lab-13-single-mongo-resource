@@ -8,4 +8,4 @@ const teamSchema = mongoose.Schema({
   members: [{type: mongoose.Schema.Types.ObjectId, ref: 'member'}],
 });
 
-module.exports = mongoose.model('team' teamSchema);
+module.exports = mongoose.model('team', teamSchema);
